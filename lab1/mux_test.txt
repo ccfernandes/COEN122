@@ -1,0 +1,52 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04/08/2020 05:33:29 PM
+// Design Name: 
+// Module Name: mux_testbench
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module mux_testbench;
+    reg d0; //inputs for testing
+    reg d1;
+    reg d2;
+    reg d3;
+    reg [1:0] select; //2-bit select bus
+    
+    wire dout;
+    
+    mux test(d0, d1, d2, d3, select, dout); //test mux.v module
+    
+    initial //run only once
+    begin
+        //set arbitary values to MUX inputs
+        d0 = 1;
+        d1 = 0;
+        d2 = 1;
+        d3 = 0;
+        
+        //go through 2bit mmux select inputs 
+        select = 2'b00;
+        #100;
+        select = 2'b01;
+        #100;
+        select = 2'b10;
+        #100;
+        select = 2'b11; 
+        #100;
+    end
+endmodule
