@@ -1,0 +1,93 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04/22/2020 06:40:12 PM
+// Design Name: 
+// Module Name: test
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+//test data, instruction, and register modules
+module test();
+reg clock;
+
+//testInstruct variables 
+reg [7:0] address;
+wire [31:0] inst;
+
+//testReg variables 
+reg write;
+
+reg [5:0] rs; //6-bit
+reg [5:0] rt;
+reg [5:0] rd;
+reg [31:0] reg_d_in;
+
+wire [31:0] rsout;
+wire [31:0] rtout;
+
+//testData variables
+reg data_write;
+reg read;
+reg [31:0] data_address;
+reg [31:0] data_d_in;
+wire [31:0] d_out;
+
+instruction_mem testInstruct(clock,address,inst);
+register_file testReg(clock,write,rs,rt,rd,reg_d_in,rsout,rtout);
+data_mem testData(clock,data_write,read,data_address,data_d_in,d_out);
+
+initial
+begin //initialization of clock
+    clock = 0;
+    forever #5 clock = ~clock;
+end
+
+initial
+begin
+//data testData(clock,data_write,read,data_address,data_datain,dataout);
+    data_write = 1;
+    read = 0;
+    data_address = 2;
+    data_d_in = 7;
+    
+    #100
+    data_write = 0;
+    read = 1;
+//instruction testInstruct(clock,address,inst);   
+    #100
+    address = 100;
+    
+    #100
+    address = 101;
+
+//register testRef(clock,write,rs,rt,rd,reg_datain,rsout,rtout);
+    #100 
+    write = 1;
+    reg_d_in = 20;
+    rd = 20;
+    
+    #100
+    reg_d_in = 22;
+    rd = 22;
+    
+    #100
+    write = 0;
+    rs = 20;
+    rt = 22;
+    
+end
+endmodule

@@ -1,0 +1,47 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04/22/2020 06:39:43 PM
+// Design Name: 
+// Module Name: register_file
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module register_file(clock, write, rs, rt, rd, d_in, rs_out, rt_out);
+input clock; //single bit 
+input write; //single bit
+
+input[5:0] rs;
+input[5:0] rt;
+input[5:0] rd;
+input [31:0] d_in;
+
+reg[31:0] registers[63:0]; //64 32-bit registers
+
+output reg [31:0] rs_out;
+output reg [31:0] rt_out;
+
+always@ (posedge clock)
+begin
+    if (write == 1) //write data_in when write signal is high 
+        registers[rd] = d_in; //assign register with address rd the data input 
+    
+    if (write == 0) //if write is not 0, then get data of rs and rt into rsout and rtout
+        begin
+            rs_out = registers[rs]; //dereference value at rs and assign to rs_out signal
+            rt_out = registers[rt]; 
+        end
+end
+endmodule
